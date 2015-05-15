@@ -1,0 +1,52 @@
+public class Solution {
+    public ArrayList<String[]> solveNQueens(int n) {
+        
+        ArrayList<String[]> res = new ArrayList<String[]>();
+        if(n<=0) return res;
+        int[] rowColIndex = new int[n];
+        helper(0,rowColIndex,res,n);
+        
+        return res;
+        
+    }
+    
+    public void helper(int row, int[] rowColIndex, ArrayList<String[]> res, int n){
+        
+        if(row==n){
+            String[] item = new String[n];
+            for(int i=0;i<n;i++){
+                StringBuilder temprow = new StringBuilder();
+                for(int j=0;j<n;j++){
+                    if(rowColIndex[i]==j){
+                        temprow.append("Q");
+                    }
+                    else{
+                        temprow.append(".");
+                    }
+                }
+                item[i] = temprow.toString();
+            }
+            res.add(item);
+            return;
+        }
+        
+        for(int i=0;i<n;i++){
+            rowColIndex[row] = i;
+            if(check(rowColIndex,row)){
+                
+                helper(row+1,rowColIndex,res,n);
+            }
+        }
+        
+    }
+    
+    public boolean check(int[] rowColIndex, int row){
+        for(int i=0;i<row;i++){
+            if(rowColIndex[i]==rowColIndex[row]||Math.abs(rowColIndex[i]-rowColIndex[row])==(row-i)){
+                return false;
+            }
+        }
+        
+        return true;
+    }
+}
