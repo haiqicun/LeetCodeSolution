@@ -16,3 +16,28 @@ public class Solution {
         
     }
 }
+
+
+public class Solution {
+    public int numTrees(int n) {
+        
+        if(n<=1) return 1;
+        
+        return helper(1,n);
+        
+    }
+    
+    public int helper(int left, int right){
+        if(left==right) return 1;
+        int res = 0;
+        for(int i=left;i<=right;i++){
+            int leftnum = helper(left,i-1);
+            for(int j=i+1;j<=right;j++){
+                int rightnum = helper(j,right);
+                res = res+leftnum*rightnum;
+            }
+        }
+        
+        return res;
+    }
+}
