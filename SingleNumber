@@ -1,0 +1,14 @@
+public class Solution {
+    public int singleNumber(int[] A) {
+        
+        if(A==null||A.length==0) return -1;
+        int res = A[0];
+        if(A.length==1) return res;
+        for(int i=1;i<A.length;i++){
+            res = res^A[i];
+        }
+        
+        return res;
+        
+    }
+}
