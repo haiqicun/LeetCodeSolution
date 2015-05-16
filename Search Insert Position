@@ -1,15 +1,26 @@
+Time complexity: O(logn); Space complexity: O(1);
+
 public class Solution {
-    public int searchInsert(int[] A, int target) {
+    public int searchInsert(int[] nums, int target) {
         
-        if(A==null||A.length==0) return 0;
-        if(A.length==1){
-            if(target<=A[0]) return 0;
-            else return 1;
-        }
+        if(nums==null||nums.length==0) return -1;
         int l = 0;
-        int r = A.length-1;
+        int r = nums.length-1;
         while(l<r){
-            
+            int mid = (l+r)/2;
+            if(target==nums[mid]){
+                return mid;
+            }
+            else if(target>nums[mid]){
+                l = mid+1;
+            }
+            else{
+                r = mid;
+            }
         }
+        
+        if(target<=nums[l]) return l;
+        return l+1;
+        
     }
 }
