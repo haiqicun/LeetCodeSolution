@@ -7,6 +7,8 @@
  *     TreeNode(int x) { val = x; }
  * }
  */
+ 
+ Time complexity: O(n); Space complexity: O(logn);
 public class Solution {
     public int maxDepth(TreeNode root) {
         
