@@ -1,0 +1,34 @@
+public class Solution {
+    public int totalNQueens(int n) {
+        
+        if(n<=0) return 0;
+        
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        res.add(0);
+        int[] rowColIndex = new int[n];
+        helper(0,rowColIndex,res,n);
+        return res.get(0);
+    }
+    
+    public void helper(int row, int[] rowColIndex,  ArrayList<Integer> res, int n){
+        if(row==n){
+            res.set(0,res.get(0)+1);
+            return;
+        }
+        
+        for(int i=0;i<n;i++){
+            rowColIndex[row] = i;
+            if(check(row,rowColIndex)){
+                helper(row+1,rowColIndex,res,n);
+            }
+        }
+    }
+    
+    public boolean check(int row, int[] rowColIndex){
+        for(int k=0;k<row;k++){
+            if(rowColIndex[k]==rowColIndex[row]||Math.abs(rowColIndex[k]-rowColIndex[row])==(row-k)) return false;
+        }
+        
+        return true;
+    }
+}
