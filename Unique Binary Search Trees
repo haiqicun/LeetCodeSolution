@@ -1,3 +1,5 @@
+Time complexity: O(1+2+...+n) = O(n^2); Space complexity: O(n);
+
 public class Solution {
     public class Solution {
     public int numTrees(int n) {
