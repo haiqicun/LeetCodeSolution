@@ -1,0 +1,21 @@
+Time complexity: O(n); Space complexity: O(1);
+
+public class Solution {
+    public int maxSubArray(int[] nums) {
+        
+        if(nums==null||nums.length==0) return 0;
+        
+        int gsum = Integer.MIN_VALUE;
+        int lsum = 0;
+        for(int i=0;i<nums.length;i++){
+            lsum = lsum+nums[i];
+            gsum = Math.max(gsum,lsum);
+            if(lsum<0){
+                lsum=0;
+            }
+        }
+        
+        return gsum;
+        
+    }
+}
