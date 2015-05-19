@@ -1,0 +1,75 @@
+Time complexity: O(n1+n2); Space complexity: O(n1+n2);
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        
+        ListNode dull = new ListNode(0);
+        ListNode pre = dull;
+        while(l1!=null&&l2!=null){
+            if(l1.val<l2.val){
+                pre.next = l1;
+                pre = l1;
+                l1 = l1.next;
+            }
+            else{
+                pre.next = l2;
+                pre = l2;
+                l2 = l2.next;
+            }
+        }
+        
+        if(l1==null){
+            pre.next = l2;
+        }
+        else pre.next = l1;
+        
+        return dull.next;
+    }
+}
+
+
+Time complexity: O(n1+n2); Space complexity: O(1);
+
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public ListNode mergeTwoLists(ListNode l1, ListNode l2) {
+        
+        ListNode dull = new ListNode(0);
+        ListNode pre = dull;
+        pre.next = l1;
+        while(l1!=null&&l2!=null){
+            if(l1.val<l2.val){
+                pre = l1;
+                l1 = l1.next;
+            }
+            else{
+                ListNode nextone = l2.next;
+                l2.next = pre.next;
+                pre.next = l2;
+                pre = l2;
+                l2 = nextone;
+            }
+        }
+        
+        if(l1==null){
+            pre.next = l2;
+        }
+        
+        return dull.next;
+    }
+}
