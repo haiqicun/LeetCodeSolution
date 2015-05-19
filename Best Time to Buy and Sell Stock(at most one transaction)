@@ -1,0 +1,21 @@
+Time complexity: O(n); Space complexity: O(1);
+
+public class Solution {
+    public int maxProfit(int[] prices) {
+        
+        if(prices==null||prices.length<2) return 0;
+        
+        int gsum = 0;
+        int lsum = 0;
+        for(int i=1;i<prices.length;i++){
+            lsum = lsum+prices[i]-prices[i-1];
+            gsum = Math.max(gsum,lsum);
+            
+            if(lsum<0){
+                lsum = 0;
+            }
+        }
+        
+        return gsum;
+    }
+}
