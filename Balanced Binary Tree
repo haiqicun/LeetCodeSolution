@@ -1,0 +1,27 @@
+Time complexity: O(n); Space complecity: O(logn);
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public boolean isBalanced(TreeNode root) {
+        
+        if(helper(root)==-1) return false;
+        return true;
+        
+    }
+    
+    public int helper(TreeNode root){
+        if(root==null) return 0;
+        int leftone = helper(root.left);
+        int rightone = helper(root.right);
+        if(leftone==-1||rightone==-1||Math.abs(leftone-rightone)>1) return -1;
+        return 1+Math.max(leftone,rightone);
+    }
+}
