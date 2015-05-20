@@ -1,0 +1,50 @@
+Time complexity: O(n); Space complexity: O(logn)
+
+/**
+ * Definition for binary tree with next pointer.
+ * public class TreeLinkNode {
+ *     int val;
+ *     TreeLinkNode left, right, next;
+ *     TreeLinkNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public void connect(TreeLinkNode root) {
+        
+        if(root==null) return;
+        TreeLinkNode curHead = root;
+        TreeLinkNode nextHead = null;
+        while(curHead!=null){
+            TreeLinkNode pre = null;
+            while(curHead!=null){
+                if(curHead.left!=null){
+                    if(pre==null){
+                        nextHead = curHead.left;
+                        pre = nextHead;
+                    }
+                    else{
+                        pre.next = curHead.left;
+                        pre = curHead.left;
+                    }
+                }
+                
+                if(curHead.right!=null){
+                    if(pre==null){
+                        nextHead = curHead.right;
+                        pre = nextHead;
+                    }
+                    else{
+                        pre.next = curHead.right;
+                        pre = curHead.right;
+                    }
+                }
+                
+                curHead = curHead.next;
+            }
+            
+            curHead = nextHead;
+            nextHead = null;
+        }
+        
+    }
+}
