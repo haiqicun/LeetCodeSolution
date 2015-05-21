@@ -1,0 +1,27 @@
+Time complexity: O(n); Space complexity: O(logn)
+
+/**
+ * Definition for binary tree
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public boolean isSymmetric(TreeNode root) {
+        
+        if(root==null) return true;
+        
+        return helper(root.left,root.right);
+        
+    }
+    
+    public boolean helper(TreeNode leftone, TreeNode rightone){
+        if(leftone==null&&rightone==null) return true;
+        else if(leftone==null||rightone==null) return false;
+        if(leftone.val==rightone.val&&helper(leftone.left,rightone.right)&&helper(leftone.right,rightone.left)) return true;
+        return false;
+    }
+}
