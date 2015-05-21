@@ -1,0 +1,37 @@
+Time complexity: O(n); Space complexity: O(1)
+
+public class Solution {
+    public int trap(int[] height) {
+        
+        if(height==null||height.length<3) return 0;
+        int res = 0;
+        int l = 0;
+        int r = height.length-1;
+        while(l<r){
+            if(height[l]<=height[r]){
+                int leftone = height[l];
+                while(l<r){
+                    if(height[l]<=leftone){
+                        res = res + leftone - height[l];
+                        l++;
+                    }
+                    else break;
+                }
+            }
+            
+            else{
+                int rightone = height[r];
+                while(l<r){
+                    if(height[r]<=rightone){
+                        res = res+rightone-height[r];
+                        r--;
+                    }
+                    else break;
+                }
+            }
+        }
+        
+        return res;
+        
+    }
+}
