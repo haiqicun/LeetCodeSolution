@@ -1,0 +1,29 @@
+//Time complexity: O(amount of results); Space complexity: O(amount of results)
+
+public class Solution {
+    public ArrayList<ArrayList<Integer>> combine(int n, int k) {
+        
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        if(n<k) return res;
+        
+        helper(n, k, 1, res, new ArrayList<Integer>());
+        return res;
+    }
+    
+    public void helper(int n, int k, int start, ArrayList<ArrayList<Integer>> res, ArrayList<Integer> item){
+        
+        if(item.size()==k){
+            res.add(new ArrayList<Integer>(item));
+            return;
+        }
+        
+        if(start>n) return;
+        
+        for(int i=start;i<n+1;i++){
+            item.add(i);
+            helper(n,k,i+1,res,item);
+            item.remove(item.size()-1);
+        }
+        
+    }
+}
