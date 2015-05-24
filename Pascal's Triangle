@@ -1,0 +1,34 @@
+Time complexity: O(n^2); Space complexity: O()
+
+public class Solution {
+    public ArrayList<ArrayList<Integer>> generate(int numRows) {
+        
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        
+        if(numRows<=0) return res;
+        ArrayList<Integer> item1 = new ArrayList<Integer>();
+        item1.add(1);
+        res.add(item1);
+        if(numRows==1) return res;
+        ArrayList<Integer> item2 = new ArrayList<Integer>();
+        item2.add(1);
+        item2.add(1);
+        res.add(item2);
+        if(numRows==2) return res;
+        
+        for(int i=3;i<=numRows;i++){
+            ArrayList<Integer> temp = new ArrayList<Integer>();
+            temp.add(1);
+            ArrayList<Integer> lastone = res.get(res.size()-1);
+            for(int j=1;j<lastone.size();j++){
+                int num = lastone.get(j-1)+lastone.get(j);
+                temp.add(num);
+            }
+            temp.add(1);
+            res.add(temp);
+        }
+        
+        return res;
+        
+    }
+}
