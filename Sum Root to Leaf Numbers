@@ -1,0 +1,73 @@
+Time complexity: O(n); Space complexity: O(logn);
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public int sumNumbers(TreeNode root) {
+        
+        if(root==null) return 0;
+        int sum = 0;
+        
+        sum = helper(root,0,0);
+        
+        return sum;
+        
+    }
+    
+    public int helper(TreeNode root, int sum, int digit){
+        digit = digit*10 + root.val;
+        if(root.left==null&&root.right==null){
+            sum = sum+digit;
+            return sum;
+        }
+        if(root.left!=null){
+            sum = helper(root.left,sum,digit);
+        }
+        if(root.right!=null){
+            sum = helper(root.right,sum,digit);
+        }
+        return sum;
+    }
+}
+
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    
+    public int sumNumbers(TreeNode root) {
+        
+        if(root==null) return 0;
+        ArrayList<Integer> sum = new ArrayList<Integer>();
+        sum.add(0);
+        helper(root, sum, 0);
+        return sum.get(0);
+    }
+    
+    public void helper(TreeNode root, ArrayList<Integer> sum, int digit){
+        digit = digit*10+root.val;
+        if(root.left==null&&root.right==null){
+            sum.set(0,sum.get(0)+digit);
+            return;
+        }
+        if(root.left!=null){
+            helper(root.left,sum,digit);
+        }
+        if(root.right!=null){
+            helper(root.right,sum,digit);
+        }
+    }
+}
