@@ -1,4 +1,4 @@
-Time complexity: O(n); Space complexity: O(1);
+Time complexity: O(amount of digits of input); Space complexity: O(1);
 
 public class Solution {
     public boolean isPalindrome(int x) {
