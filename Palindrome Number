@@ -1,0 +1,24 @@
+Time complexity: O(n); Space complexity: O(1);
+
+public class Solution {
+    public boolean isPalindrome(int x) {
+        
+        if(x<0) return false;
+        if(x==0) return true;
+        
+        int div = 1;
+        while(div<=(x/10)){
+            div = div*10;
+        }
+        
+        while(x>0){
+            if((x/div)!=(x%10)) return false;
+            x = x%div;
+            x = x/10;
+            div = div/100;
+        }
+        
+        return true;
+        
+    }
+}
