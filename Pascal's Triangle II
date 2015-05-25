@@ -1,0 +1,23 @@
+Time complexity: O(n^2); Space complexity: O(n)
+
+public class Solution {
+    public ArrayList<Integer> getRow(int rowIndex) {
+        
+        ArrayList<Integer> res = new ArrayList<Integer>();
+        
+        if(rowIndex<0) return res;
+        res.add(1);
+        if(rowIndex==0) return res;
+        res.add(1);
+        if(rowIndex==1) return res;
+        
+        for(int i=2;i<=rowIndex;i++){
+            for(int k=res.size()-1;k>0;k--){
+                res.set(k,res.get(k)+res.get(k-1));
+            }
+            res.add(1);
+        }
+        
+        return res;
+    }
+}
