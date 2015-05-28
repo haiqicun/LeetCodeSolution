@@ -1,0 +1,23 @@
+Time complexity: O(n); Space complexity: O(1)
+
+public class Solution {
+    public int lengthOfLastWord(String s) {
+        
+        if(s==null||s.length()==0) return 0;
+        
+        int lastIndex = s.length()-1;
+        while(lastIndex>=0 && s.charAt(lastIndex)==' ' ){
+            lastIndex--;
+        }
+        if(lastIndex<0) return 0;
+        
+        int res = 0;
+        for(int i=lastIndex; i>=0;i--){
+            if(s.charAt(i)==' ') return res;
+            res++;
+        }
+        
+        return res;
+        
+    }
+}
