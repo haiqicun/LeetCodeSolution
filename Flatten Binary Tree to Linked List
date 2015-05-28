@@ -1,4 +1,4 @@
-Time complexity: O(n); Space complexity: O(1)
+Time complexity: O(n); Space complexity: O(logn)
 
 /**
  * Definition for a binary tree node.
@@ -31,8 +31,11 @@ public class Solution {
     }
 }
 
+
+
+Time complexity: O(n); Space complexity: O(logn)
 /**
- * Definition for binary tree
+ * Definition for a binary tree node.
  * public class TreeNode {
  *     int val;
  *     TreeNode left;
@@ -44,21 +47,15 @@ public class Solution {
     public void flatten(TreeNode root) {
         
         if(root==null) return;
-        
-        while(root!=null){
-            if(root.left!=null){
-                TreeNode pre = root.left;
-                while(pre.right!=null){
-                    pre = pre.right;
-                }
-                
-                pre.right = root.right;
-                root.right = root.left;
-                root.left = null;
+        if(root.left!=null){
+            TreeNode pre = root.left;
+            while(pre.right!=null){
+                pre = pre.right;
             }
-            
-            root = root.right;
+            pre.right = root.right;
+            root.right = root.left;
+            root.left = null;
         }
-        
+        flatten(root.right);
     }
 }
