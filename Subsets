@@ -1,0 +1,64 @@
+Time complexity: O(2^n); Space complexity: O(2^n)
+
+public class Solution {
+    public ArrayList<ArrayList<Integer>> subsets(int[] nums) {
+        
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        
+        ArrayList<Integer> item = new ArrayList<Integer>();
+        
+        res.add(item);
+        Arrays.sort(nums);
+        
+        if(nums==null||nums.length==0) return res;
+        
+        helper(nums,res,0);
+        return res;
+         
+    }
+    
+    public void helper(int[] nums, ArrayList<ArrayList<Integer>> res, int index){
+        
+        if(index==nums.length) return;
+        
+        int size = res.size();
+        for(int i=0;i<size;i++){
+            ArrayList<Integer> item = new ArrayList<Integer>(res.get(i));
+            item.add(nums[index]);
+            res.add(item);
+        }
+        
+        helper(nums, res, index+1);
+        
+    }
+}
+
+Time complexity: O(2^n); Space complexity: O(2^n)
+public class Solution {
+    public ArrayList<ArrayList<Integer>> subsets(int[] nums) {
+        
+        ArrayList<ArrayList<Integer>> res = new ArrayList<ArrayList<Integer>>();
+        
+        ArrayList<Integer> item = new ArrayList<Integer>();
+        
+        res.add(item);
+        Arrays.sort(nums);
+        
+        if(nums==null||nums.length==0) return res;
+        
+        for(int i=0;i<nums.length;i++){
+            
+            int size = res.size();
+            
+            for(int j=0;j<size;j++){
+                ArrayList<Integer> item1 = new ArrayList<Integer>(res.get(j));
+                item1.add(nums[i]);
+                res.add(item1);
+            }
+            
+        }
+        
+        return res;
+        
+    }
+}
