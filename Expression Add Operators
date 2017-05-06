@@ -1,0 +1,30 @@
+public class Solution {
+    public List<String> addOperators(String num, int target) {
+        List<String> res = new ArrayList<String>();
+        if (num == null || num.length() == 0) return res;
+        helper(res, num, "", 0, target, 0, 0);
+        return res;
+    }
+    
+    public void helper(List<String> res, String num, String can, int index, int target, long total, long diff) {
+        if (index == num.length() && total == target) {
+            res.add(can);
+            return;
+        }
+        
+        for (int i = index + 1; i <= num.length(); i++) {
+            if (i > index + 1 && num.charAt(index) == '0') break;
+            String cur = num.substring(index, i);
+            Long tmp = Long.parseLong(cur);
+            if (index == 0) {
+                helper(res, num, cur, i, target, tmp, tmp);
+            }
+            else {
+                helper(res, num, can+"+"+cur, i, target, total+tmp, tmp);
+                helper(res, num, can+"-"+cur, i, target, total-tmp, -tmp);
+                helper(res, num, can+"*"+cur, i, target, total-diff+diff*tmp, diff*tmp);
+            }
+            
+        }
+    }
+}
