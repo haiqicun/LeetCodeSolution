@@ -1,0 +1,38 @@
+public class Solution {
+    public String minWindow(String s, String t) {
+        if (s == null || t == null || t.length() == 0 || s.length() < t.length()) return "";
+        
+        int[] ta = new int[256];
+        int[] sa = new int[256];
+        int len = Integer.MAX_VALUE;
+        
+        for (int i = 0; i < t.length(); i++) {
+            ta[t.charAt(i)] ++;
+        }
+        int count = 0;
+        int begin = -1;
+        int start = 0;
+        int end = 0;
+        
+        for (int i = 0; i < s.length(); i++) {
+            char ch = s.charAt(i);
+            sa[ch]++;
+            if (sa[ch] <= ta[ch]) count++;
+            if (count == t.length()) {
+                while (start < s.length() && sa[s.charAt(start)] > ta[s.charAt(start)]) {
+                    sa[s.charAt(start)]--;
+                    start++;
+                }
+                if(i - start + 1 < len) {
+                    begin = start;
+                    end = i;
+                    len = i - start + 1;
+                }
+                sa[s.charAt(start)]--;
+                start++;
+                count--;
+            }
+        }
+        return begin == -1 ? "" : s.substring(begin, end+1);
+    }
+}
