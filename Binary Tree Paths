@@ -1,0 +1,50 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode(int x) { val = x; }
+ * }
+ */
+public class Solution {
+    public List<String> binaryTreePaths(TreeNode root) {
+        List<String> res = new ArrayList<String>();
+        if (root == null) return res;
+        Set<TreeNode> set = new HashSet<TreeNode>();
+        Stack<TreeNode> stack = new Stack<TreeNode>();
+        StringBuilder sb = new StringBuilder();
+        stack.push(root);
+        set.add(root);
+        sb.append(root.val);
+        while (!stack.isEmpty()) {
+            TreeNode node = stack.peek();
+            if (node.left == null && node.right == null) {
+                res.add(sb.toString());
+                stack.pop();
+                if (sb.indexOf("->") != -1) {
+                    sb.setLength(sb.lastIndexOf("->"));
+                }
+                continue;
+            }
+            if (node.left != null && !set.contains(node.left)) {
+                sb.append("->").append(node.left.val);
+                set.add(node.left);
+                stack.push(node.left);
+                continue;
+            }
+            if (node.right != null && !set.contains(node.right)) {
+                sb.append("->").append(node.right.val);
+                set.add(node.right);
+                stack.push(node.right);
+                continue;
+            }
+            if (sb.indexOf("->") != -1) {
+                    sb.setLength(sb.lastIndexOf("->"));
+            }
+            stack.pop();
+        }
+        
+        return res;
+    }
+}
