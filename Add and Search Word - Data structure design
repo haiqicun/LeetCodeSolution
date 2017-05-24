@@ -44,6 +44,9 @@ class TrieNode {
     TrieNode[] children = new TrieNode[26];
 }
 
+//Time Complexity:addWord - O(L), search - O(26L), Space Complexity - O(26L)
+//L is the length of word
+
 /**
  * Your WordDictionary object will be instantiated and called as such:
  * WordDictionary obj = new WordDictionary();
