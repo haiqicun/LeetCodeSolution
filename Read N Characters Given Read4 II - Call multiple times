@@ -9,7 +9,6 @@ public class Solution extends Reader4 {
      */
     int index = 0;
     int remaining = 0;
-    boolean end = false;
     char[] tmp = new char[4];
     
     public int read(char[] buf, int n) {
@@ -18,17 +17,16 @@ public class Solution extends Reader4 {
             buf[res++] = tmp[index++];
             remaining--;
         }
-        while (res < n && !end) {
+        while (res < n) {
             remaining = 0;
             int count = read4(tmp);
             int length = Math.min(count, n - res);
             for (int i = 0; i < length; i++) {
                 buf[res++] = tmp[i];
             }
-            
-            if (count < 4) end = true;
             remaining = count - length;
             index = length % 4;
+            if (length < 4) return res;
         }
         return res;
     }
