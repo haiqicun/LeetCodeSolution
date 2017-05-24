@@ -7,27 +7,25 @@ public class Solution extends Reader4 {
      * @param n   Maximum number of characters to read
      * @return    The number of characters read
      */
-    int index = 0;
-    int remaining = 0;
+    private int remaining = 0;
+    private int index = 0;
     char[] tmp = new char[4];
-    
     public int read(char[] buf, int n) {
-        int res = 0;
-        while (res < n && remaining > 0) {
-            buf[res++] = tmp[index++];
-            remaining--;
+        if (n < 1) return 0;
+        int total = 0;
+        while (total < n && remaining-- > 0) {
+            buf[total++] = tmp[index++];
         }
-        while (res < n) {
-            remaining = 0;
+        while (total < n) {
             int count = read4(tmp);
-            int length = Math.min(count, n - res);
-            for (int i = 0; i < length; i++) {
-                buf[res++] = tmp[i];
+            int num = Math.min(n - total, count);
+            for (int i = 0; i < num; i++) {
+                buf[total++] = tmp[i];
             }
-            remaining = count - length;
-            index = length % 4;
-            if (length < 4) return res;
+            remaining = count - num;
+            index = num % 4;
+            if (num < 4) return total;
         }
-        return res;
+        return total;
     }
 }
