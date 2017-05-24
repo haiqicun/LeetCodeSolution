@@ -1,0 +1,44 @@
+public class Solution {
+    public int numDecodings(String s) {
+        
+        if (s == null || s.length() == 0) return 0;
+        int[] dp = new int[s.length() + 1];
+        int n0 = 1;
+        int n1 = s.charAt(0) == '0' ? 0 : 1;
+        int n2 = 0;
+        for (int i = 1; i < s.length(); i++) {
+            int one = s.charAt(i) - '0';
+            int two = Integer.parseInt(s.substring(i-1, i+1));
+            n2 = one == 0 ? 0 : n1;
+            if (two >= 10 && two <= 26) {
+                n2 = n0 + n2;
+            }
+            n0 = n1;
+            n1 = n2;
+        }
+        return n1;
+    }
+}
+// Time complexity:O(n); space complexity: O(1)
+
+/*public class Solution {
+    public int numDecodings(String s) {
+        if (s == null || s.length() == 0) return 0;
+        
+        int[] res = new int[s.length() + 1];
+        res[0] = 1;
+        res[1] = s.charAt(0) - '0' == 0 ? 0 : 1;
+        
+        for (int i = 2; i <= s.length(); i++) {
+            int first = Integer.valueOf(s.substring(i-1, i));
+            int second = Integer.valueOf(s.substring(i-2, i));
+            if(first!=0) {
+                res[i] += res[i-1];
+            }
+            if (second>=10 && second <=26) {
+                res[i] += res[i-2];
+            }
+        }
+        return res[s.length()];
+    }
+}*/
