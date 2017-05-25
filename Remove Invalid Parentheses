@@ -1,0 +1,38 @@
+public class Solution {
+    public List<String> removeInvalidParentheses(String s) {
+        int rml = 0;
+        int rmr = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '(') rml++;
+            else if (c == ')') {
+                if (rml > 0) rml--;
+                else rmr++;
+            }
+        }
+        Set<String> set = new HashSet<>();
+        dfs(s, 0, new StringBuilder(), rml, rmr, 0, set);
+        return new ArrayList<String>(set);
+    }
+    private void dfs(String s, int index, StringBuilder sb, int rml, int rmr, int open, Set<String> set) {
+        if (rml < 0 || rmr < 0 || open < 0) return;
+        if (index == s.length()) {
+            if (rml == 0 && rmr == 0 && open == 0) {
+                set.add(sb.toString());
+            }
+            return;
+        }
+        char c = s.charAt(index);
+        int len = sb.length();
+        if (c == '(') {
+            dfs(s, index+1, sb, rml-1, rmr, open, set);
+            dfs(s, index+1, sb.append(c), rml, rmr, open+1, set);
+        } else if (c == ')') {
+            dfs(s, index+1, sb, rml, rmr - 1, open, set);
+            dfs(s, index+1, sb.append(c), rml, rmr, open-1, set);
+        } else {
+            dfs(s, index+1, sb.append(c), rml, rmr, open, set);
+        }
+        sb.setLength(len);
+    }
+}
+//time complexity(n*2^n) space complexity(2^n)
