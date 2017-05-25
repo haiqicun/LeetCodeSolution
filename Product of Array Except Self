@@ -1,0 +1,31 @@
+public class Solution {
+    public int[] productExceptSelf(int[] nums) {
+        /*int n = nums.length;
+        int[] res = new int[n];
+        res[0] = 1;
+        for (int i = 1; i < n; i++) {
+            res[i] = res[i - 1] * nums[i - 1];
+        }
+        int right = 1;
+        for (int i = n - 1; i >= 0; i--) {
+            res[i] *= right;
+            right *= nums[i];
+        }
+        return res;*/
+        int leng = nums.length;
+    int[] ret = new int[leng];
+    if(leng == 0)
+        return ret;
+    int runningprefix = 1;
+    for(int i = 0; i < leng; i++){
+        ret[i] = runningprefix;
+        runningprefix*= nums[i];
+    }
+    int runningsufix = 1;
+    for(int i = leng -1; i >= 0; i--){
+        ret[i] *= runningsufix;
+        runningsufix *= nums[i];
+    }
+    return ret;
+    }
+}
