@@ -26,3 +26,5 @@ public class NestedIterator implements Iterator<Integer> {
         return false;
     }
 }
+
+//Time Complexity: next, O(1). hasNext, O(n). Space: O(n)
