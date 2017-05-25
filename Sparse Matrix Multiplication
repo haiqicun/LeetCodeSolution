@@ -1,0 +1,47 @@
+public class Solution {
+    public int[][] multiply(int[][] A, int[][] B) {
+        if (A == null || B == null || A.length == 0 || B.length == 0 || A[0].length == 0 || B[0].length == 0 || A[0].length != B.length) return null;
+        int[][] res = new int[A.length][B[0].length];
+        for (int i = 0; i < A.length; i++) {
+            for (int k = 0; k < B.length; k++) {
+                if (A[i][k] != 0) {
+                    for (int j = 0; j < B[0].length; j++) {
+                        if (B[k][j] != 0) {
+                            res[i][j] += A[i][k] * B[k][j];
+                        }
+                    }
+                }
+            }
+        }
+        
+        return res;
+    }
+}
+
+
+
+
+
+/*
+public class Solution {
+    public int[][] multiply(int[][] A, int[][] B) {
+        int row = A.length;
+        int col = B[0].length;
+        int[][] res = new int[row][col];
+        
+        for (int i = 0; i < row; i++) {
+            for (int k = 0; k < A[0].length; k++) {
+                if (A[i][k] != 0) {
+                    for (int j = 0; j < col; j++) {
+                        if (B[k][j] != 0) {
+                            res[i][j] += A[i][k] * B[k][j];
+                        }
+                    }
+                }
+            }
+        }
+        
+        return res;
+    }
+}
+*/
