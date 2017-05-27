@@ -1,0 +1,82 @@
+import java.util.*;
+class MovieNetwork {
+  public static void main(String[] args) {
+    Movie A = new Movie(0, 1.2f);
+    Movie B = new Movie(1, 2.4f);
+    Movie C = new Movie(2, 3.6f);
+    Movie D = new Movie(3, 4.8f);
+    
+    B.addSimilarMovie(D);
+    C.addSimilarMovie(D);
+    
+    A.addSimilarMovie(B);
+    A.addSimilarMovie(C);
+    
+    List<Movie> movies = Movie.getMovieRecommendations(A, 5);
+    System.out.println(movies.size());
+    for (Movie m: movies) {
+      System.out.print(m.getId() + " ");
+      System.out.println(m.getRating());
+    }
+  }
+}
+
+class Movie {
+    private final int movieId;
+    private final float rating;
+    private List<Movie> similarMovies;  // Similarity is bi directional
+
+    public Movie (int movieId, float rating) {
+        this.movieId = movieId;
+        this.rating = rating;
+        similarMovies = new ArrayList<Movie>();
+    }
+
+    public int getId() {
+        return movieId;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void addSimilarMovie(Movie movie) {
+        similarMovies.add(movie);
+        movie.similarMovies.add(this);
+    }
+
+    public List<Movie> getSimilarMovies() {
+        return similarMovies;
+    }
+
+    public static List<Movie> getMovieRecommendations(Movie movie, int numTopRatedSimilarMovies) {
+        PriorityQueue<Movie> queue = new PriorityQueue<Movie>(numTopRatedSimilarMovies + 2, new Comparator<Movie>(){
+            public int compare(Movie m1, Movie m2) {
+                if (m1.getRating() - m2.getRating() >= 0) return 1;
+                return 0;
+            }
+        });
+        if (movie == null || numTopRatedSimilarMovies == 0) return null;
+        helper(movie.getSimilarMovies(), queue, numTopRatedSimilarMovies + 1);
+        List<Movie> res = new ArrayList<Movie>();
+        int i = 0;
+        for (Movie m : queue) {
+            if (i >= numTopRatedSimilarMovies) break;
+            if (m == movie) continue;
+            res.add(m);
+            i++;
+        }
+        return res;
+    }
+    private static void helper (List<Movie> movies, PriorityQueue<Movie> queue, int num) {
+        for (Movie m : movies) {
+            if (!queue.contains(m)) {
+                queue.offer(m);
+                if (queue.size() > num) {
+                    queue.poll();
+                }
+                helper(m.getSimilarMovies(), queue, num);
+            }
+        }
+    }
+}
