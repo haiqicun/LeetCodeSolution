@@ -1,0 +1,76 @@
+import java.util.*;
+class TreeNode {
+    int val;
+    TreeNode left;
+    TreeNode right;
+    TreeNode(int x) { val = x; }
+}
+class BSTDistance {
+
+    private TreeNode root;
+        
+    public void ConstructBST(int[] values,int n){
+        for(int i=0;i<n;i++){
+            if(root==null){ 
+                root=new TreeNode(values[i]);
+            }else{
+                add(root,values[i]);
+            }
+        }
+    }
+        
+    public void add(TreeNode node,int val){
+        if (val < node.val) {
+            if (node.left == null) {
+                node.left = new TreeNode(val);
+            } else {
+                add(node.left, val);
+            }
+        } else if (val > node.val) {
+            if (node.right == null) {
+                node.right = new TreeNode(val);
+            } else {
+                add(node.right, val);
+            }
+        }
+    }
+        
+        
+    public int bstDistance(int[] values, int n, int node1, int node2){
+        if (values == null || values.length == 0) return -1;
+        ConstructBST(values,n);
+        int l1=PathlengthHelp(root,node1) - 1;
+        int l2=PathlengthHelp(root,node2) - 1;
+        if (l1 == -1 || l2 == -1) return -1;
+        TreeNode lcaNode = getLCA(root, node1, node2 );
+        int lcaDistance = PathlengthHelp(root, lcaNode.val) - 1;
+        return (l1 + l2) - 2 * lcaDistance;
+                
+    }
+        
+    public int PathlengthHelp(TreeNode root, int n) {
+        if (root == null) return 0;
+        if (root.val == n) return 1;
+        int l = PathlengthHelp(root.left, n);
+        int r = PathlengthHelp(root.right, n);
+        if (l > 0) return l+1;
+        if (r > 0) return r+1;
+        return 0;
+}
+        
+    public TreeNode getLCA(TreeNode root, int node1, int node2) {
+        if (root == null || root.val == node1 || root.val == node2) return root;
+        TreeNode left = getLCA(root.left, node1, node2);
+        TreeNode right = getLCA(root.right, node1, node2);
+        if (left != null && right != null) return root;
+        return left != null ? left : right;
+    }
+        
+        
+    public static void main(String[] args) {
+        BSTDistance test=new BSTDistance();
+        int values[]={5,6,3,1,2,4};
+        int res=test.bstDistance(values, 6, 2, 6);
+        System.out.println(res);
+    }
+}
