@@ -1,0 +1,48 @@
+public class Solution {
+    public String alienOrder(String[] words) {
+        if (words == null || words.length == 0) return "";
+        StringBuilder sb = new StringBuilder();
+        boolean[][] graph = new boolean[26][26];
+        boolean[] startLetters = new boolean[26];
+        int[] visited = new int[26];
+        // build graph
+        String pre = words[0];
+        for (char c : pre.toCharArray()) startLetters[c - 'a'] = true;
+        for (int i = 1; i < words.length; i++) {
+            int l1 = pre.length(), l2 = words[i].length(), p1 = 0, p2 = 0;
+            while (p1 < l1 && p2 < l2) {
+                char c1 = pre.charAt(p1), c2 = words[i].charAt(p2);
+                if (c1 != c2) {
+                    graph[c1 - 'a'][c2 - 'a'] = true;
+                    break;
+                }
+                p1 ++; p2 ++;
+            }
+            pre = words[i];
+            for (char c : pre.toCharArray()) startLetters[c - 'a'] = true;
+        }
+        // topo sort
+        for (int i = 25; i >= 0; i--) {
+            if (startLetters[i] && visited[i] == 0) {
+                visited[i] = 1;
+                if (!dfs(graph, visited, sb, i)) return "";
+            }
+        }
+        return sb.toString();
+    }
+    
+    public boolean dfs(boolean[][] graph, int[] visited, StringBuilder sb, int idx) {
+        boolean[] next = graph[idx];
+        for (int i = 25; i >= 0; i--) {
+            if (next[i]) {
+                if (visited[i] == 2 || i == idx) continue;
+                else if (visited[i] == 1) return false;
+                visited[i] = 1;
+                if (!dfs(graph, visited, sb, i)) return false;
+            }
+        }
+        sb.insert(0, (char)(idx+'a'));
+        visited[idx] = 2;
+        return true;
+    }
+}
