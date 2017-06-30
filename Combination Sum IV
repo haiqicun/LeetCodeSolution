@@ -1,0 +1,27 @@
+public class Solution {
+    private int[] dp;
+    public int combinationSum4(int[] nums, int target) {
+        dp = new int[target + 1];
+        Arrays.fill(dp, -1);
+        dp[0] = 1;
+        return helper(nums, target);
+    }
+
+    private int helper(int[] nums, int target) {
+        if (dp[target] != -1) {
+            return dp[target];
+        }
+        int res = 0;
+        // combine(target) = combine(target - nums[1]) + combine(target - nums[2]) + ....;
+        for (int i = 0; i < nums.length; i++) {
+            if (target >= nums[i]) {
+                res += helper(nums, target - nums[i]);
+            }
+        }
+        dp[target] = res;
+        return res;
+    }
+}
+// time complexity O(n*target)
+
+//https://discuss.leetcode.com/topic/52302/1ms-java-dp-solution-with-detailed-explanation
