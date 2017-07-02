@@ -10,41 +10,34 @@ Time complexity: O(n); Space complexity: O(1)
  */
 public class Solution {
     public void connect(TreeLinkNode root) {
-        
-        if(root==null) return;
-        TreeLinkNode curHead = root;
-        TreeLinkNode nextHead = null;
-        while(curHead!=null){
-            TreeLinkNode pre = null;
-            while(curHead!=null){
-                if(curHead.left!=null){
-                    if(pre==null){
-                        nextHead = curHead.left;
-                        pre = nextHead;
+        TreeLinkNode starter = root;
+        TreeLinkNode nextStarter = null;
+        TreeLinkNode cur = null;
+        TreeLinkNode pre = null;
+        while (starter != null) {
+            cur = starter;
+            while (cur != null) {
+                if (cur.left != null) {
+                    if (nextStarter == null) {
+                        nextStarter = cur.left;
+                    } else {
+                        pre.next = cur.left;
                     }
-                    else{
-                        pre.next = curHead.left;
-                        pre = curHead.left;
-                    }
+                    pre = cur.left;
                 }
-                
-                if(curHead.right!=null){
-                    if(pre==null){
-                        nextHead = curHead.right;
-                        pre = nextHead;
+                if (cur.right != null) {
+                    if (nextStarter == null) {
+                        nextStarter = cur.right;
+                    } else {
+                        pre.next = cur.right;
                     }
-                    else{
-                        pre.next = curHead.right;
-                        pre = curHead.right;
-                    }
+                    pre = cur.right;
                 }
-                
-                curHead = curHead.next;
+                cur = cur.next;
             }
             
-            curHead = nextHead;
-            nextHead = null;
+            starter = nextStarter;
+            nextStarter = null;
         }
-        
     }
 }
