@@ -1,45 +1,39 @@
 public class Solution {
     public int maximalRectangle(char[][] matrix) {
         if (matrix == null || matrix.length == 0 || matrix[0].length == 0) return 0;
-        int[] height = new int[matrix[0].length];
-        for (int i = 0; i < matrix[0].length; i++) {
-            if (matrix[0][i] == '0') continue;
-            height[i] = 1;
+        int res = 0;
+        int[] heights = new int[matrix[0].length];
+        for (int j = 0; j < matrix.length; j++) {
+            setHeights(matrix, heights, j);
+            res = Math.max(res, maxArea(heights));
         }
-        int result = largestInLine(height);
-        for (int i = 1; i < matrix.length; i++) {
-            resetHeight(matrix, height, i);
-            result = Math.max(result, largestInLine(height));
-        }
-        return result;
+        
+        return res;
     }
-    public void resetHeight(char[][] matrix, int[] height, int idx) {
+    
+    public void setHeights(char[][] matrix, int[] heights, int j) {
         for (int i = 0; i < matrix[0].length; i++) {
-            if (matrix[idx][i] == '1') {
-                height[i]+=1;
+            if (matrix[j][i] == '0') {
+                heights[i] = 0;
+                continue;
             }
-            else {
-                height[i] = 0;
-            }
+            heights[i] += 1;
         }
     }
     
-    public int largestInLine(int[] height) {
-        if (height == null || height.length == 0) return 0;
-        int len = height.length;
-        Stack<Integer> s = new Stack<>();
+    public int maxArea(int[] heights) {
         int max = 0;
-        for (int i = 0; i <= len; i++) {
-            int h = i == len ? 0 : height[i];
-            if (s.isEmpty() || h >= height[s.peek()]) {
-                s.push(i);
+        Stack<Integer> stack = new Stack<>();
+        for (int i = 0; i <= heights.length; i++) {
+            int h = i == heights.length ? 0 : heights[i];
+            if (stack.isEmpty() || h >= heights[stack.peek()]) {
+                stack.push(i);
             } else {
-                int tp = s.pop();
-                max = Math.max(max, height[tp] * (s.isEmpty() ? i : i - 1 - s.peek()));
+                int tp = stack.pop();
+                max = Math.max(max, heights[tp] * (stack.isEmpty() ? i : i - 1 - stack.peek()));
                 i--;
             }
         }
-        
         return max;
     }
 }
