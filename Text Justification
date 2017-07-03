@@ -44,3 +44,5 @@ public class Solution {
             return lines;
     }
 }
+//Time complexity: O(number of words); 
+//Space complexity: O(maxWidth + number of lines(worst case: number of words: one line one word));
