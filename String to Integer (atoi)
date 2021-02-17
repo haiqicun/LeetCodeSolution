@@ -1,0 +1,39 @@
+class Solution {
+    public int myAtoi(String s) {
+        
+        if (s == null || s.length() == 0) return 0;
+        s = s.trim();
+        
+        if (s.length() == 0) return 0;
+        
+        int cur = 0;
+        boolean negative = false;
+        double res = 0;
+        
+        if (s.charAt(0) == '-') {
+            negative = true;
+            cur++;
+        }
+        if (s.charAt(0) == '+') cur++;
+        
+        while (cur < s.length()) {
+            if (s.charAt(cur) < '0' || s.charAt(cur) > '9' ) break;
+            res = res*10 + s.charAt(cur) - '0';
+            cur++;
+        }
+        
+        if (negative) {
+            res = -res;
+            if (res < Integer.MIN_VALUE) {
+                res = Integer.MIN_VALUE;
+            }
+        } else {
+            if (res > Integer.MAX_VALUE) {
+                res = Integer.MAX_VALUE;
+            }
+        }
+        
+        return (int)res;
+        
+    }
+}
