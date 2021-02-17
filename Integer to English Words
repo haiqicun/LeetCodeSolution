@@ -6,27 +6,28 @@ public class Solution {
     public String numberToWords(int num) {
         if (num == 0) return "Zero";
         int i = 0;
-        String words = "";
+        StringBuilder words = new StringBuilder();
         while (num > 0) {
             if (num % 1000 != 0){
-                words = helper(num % 1000) +THOUSANDS[i] + " " + words;
+                words = helper(num % 1000).append(THOUSANDS[i]).append(" ").append(words);
             }
     	    num /= 1000;
     	    i++;
         }
     
-        return words.trim();
+        return words.toString().trim();
     }
 
-    private String helper(int num) {
+    private StringBuilder helper(int num) {
+        StringBuilder sb = new StringBuilder();
         if (num == 0)
-            return "";
+            return sb.append("");
         else if (num < 20)
-        return LESS_THAN_20[num - 1] + " ";
+        return sb.append(LESS_THAN_20[num - 1]).append(" ");
         else if (num < 100)
-            return TENS[num / 10 - 2] + " " + helper(num % 10);
+            return sb.append(TENS[num / 10 - 2]).append(" ").append(helper(num % 10));
         else
-            return LESS_THAN_20[num / 100 - 1] + " Hundred " + helper(num % 100);
+            return sb.append(LESS_THAN_20[num / 100 - 1]).append(" Hundred ").append(helper(num % 100));
     }
 }
 
