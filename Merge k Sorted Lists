@@ -56,4 +56,4 @@ public class Solution {
         return dummy.next;
     }
 }
-//Time complexity:O(nklogk), Space complexity: O(klogk)
+//Time complexity:O(nlogk), Space complexity: O(klogk)
