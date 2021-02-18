@@ -56,4 +56,34 @@ public class Solution {
         return dummy.next;
     }
 }
+
+
+
+class Solution {
+    public ListNode mergeKLists(ListNode[] lists) {
+        if (lists == null || lists.length == 0) return null;
+        
+        PriorityQueue<ListNode> queue = new PriorityQueue<ListNode>(new Comparator<ListNode>() {
+            public int compare(ListNode l1, ListNode l2) {
+                return l1.val -l2.val;
+            }
+        });
+        
+        for (ListNode list : lists) {
+            if (list != null) queue.offer(list);
+        }
+        
+        ListNode head = new ListNode(0);
+        ListNode cur = head;
+        
+        while (!queue.isEmpty()) {
+            ListNode node = queue.poll();
+            cur.next = node;
+            if (node.next!=null) queue.offer(node.next);
+            cur = node;
+        }
+        
+        return head.next;
+    }
+}
 //Time complexity:O(nlogk), Space complexity: O(klogk)
