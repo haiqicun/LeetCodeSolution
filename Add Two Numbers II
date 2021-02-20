@@ -1,0 +1,64 @@
+/**
+ * Definition for singly-linked list.
+ * public class ListNode {
+ *     int val;
+ *     ListNode next;
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
+ * }
+ */
+class Solution {
+    public ListNode addTwoNumbers(ListNode l1, ListNode l2) {
+        Stack<ListNode> s1 = new Stack<ListNode>();
+        Stack<ListNode> s2 = new Stack<ListNode>();
+        
+        ListNode cur1 = l1;
+        ListNode cur2 = l2;
+        int count1 = 0;
+        int count2 = 0;
+        
+        while (cur1 != null) {
+            s1.push(cur1);
+            cur1 = cur1.next;
+            count1++;
+        }
+        while (cur2 != null) {
+            s2.push(cur2);
+            cur2 = cur2.next;
+            count2++;
+        }
+        
+        if (count1 < count2) {
+            ListNode temp = l2;
+            l2 = l1;
+            l1 = temp;
+            Stack<ListNode> nodes = s2;
+            s2 = s1;
+            s1 = nodes;
+        }
+        
+        int sum = 0;
+        while (!s2.isEmpty()) {
+            ListNode node1 = s1.pop();
+            ListNode node2 = s2.pop();
+            sum = sum + node1.val + node2.val;
+            node1.val = sum % 10;
+            sum = sum / 10;
+        }
+        
+        while (!s1.isEmpty() && sum != 0) {
+            ListNode temp = s1.pop();
+            sum += temp.val;
+            temp.val = sum % 10;
+            sum = sum / 10;
+        }
+        
+        if (sum != 0) {
+            ListNode head = new ListNode(sum);
+            head.next = l1;
+            return head;
+        }
+        return l1;
+    }
+}
