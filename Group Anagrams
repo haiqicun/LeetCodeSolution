@@ -29,3 +29,19 @@ class Solution {
         return res;
     }
 }
+
+
+
+Runtime Complexity
+The outer for loop is O(n) complexity, where n = the length of the array.
+
+The sort operation on the character array, assuming the Java implementation of sort uses the most efficient complexity, has the runtime of O(k log(k)).
+
+Therefore the runtime complexity of O(n klog(k)).
+
+Space Complexity
+We are creating a new map that holds all n elements of the array, so O(n).
+
+For each word we create a local variable of size O(k), the size of the word.
+
+Therefore the space complexity is O(nk).
