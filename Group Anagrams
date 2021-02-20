@@ -1,23 +1,31 @@
-public class Solution {
+class Solution {
     public List<List<String>> groupAnagrams(String[] strs) {
-        if(strs==null || strs.length == 0){
-		return new ArrayList<List<String>>();
-	    }
-	    HashMap<String, List<String>> map = new HashMap<String, List<String>>();
-	    //Arrays.sort(strs);
-	    for (String s:strs) {
-		    char[] ca = s.toCharArray();
-		    Arrays.sort(ca);
-		    String keyStr = String.valueOf(ca);
-		    if(!map.containsKey(keyStr)){
-		        map.put(keyStr, new ArrayList<String>());
-		    }
-		    map.get(keyStr).add(s);
-	}
-	
-	    //for(String key: map.keySet()) {
-		    //Collections.sort(map.get(key));
-	    //}
-	    return new ArrayList<List<String>>(map.values());
+        List<List<String>> res = new ArrayList<List<String>>();
+        
+        if (strs == null || strs.length == 0) return res;
+        HashMap<String, List<String>> map = new HashMap<String, List<String>>();
+        
+        for (String s : strs) {
+            char[] cs = s.toCharArray();
+            Arrays.sort(cs);
+            String target = String.valueOf(cs);
+            if (!map.containsKey(target)) {
+                List<String> list = new ArrayList<String>();
+                list.add(s);
+                map.put(target, list);
+                continue;
+            }
+            map.get(target).add(s);
+            
+        }
+        
+        Iterator it = map.entrySet().iterator();
+        while (it.hasNext()) {
+            Map.Entry me = (Map.Entry)it.next();
+            ArrayList<String> tempList = (ArrayList<String>) me.getValue();
+            res.add(tempList);
+        }
+        
+        return res;
     }
 }
