@@ -1,31 +1,30 @@
-Time complexity: O(n); Space complexity: O(1)
-
 /**
  * Definition for singly-linked list.
  * public class ListNode {
  *     int val;
  *     ListNode next;
- *     ListNode(int x) { val = x; }
+ *     ListNode() {}
+ *     ListNode(int val) { this.val = val; }
+ *     ListNode(int val, ListNode next) { this.val = val; this.next = next; }
  * }
  */
-public class Solution {
+class Solution {
     public ListNode swapPairs(ListNode head) {
+        if (head == null || head.next == null) return head;
         
-        if(head==null||head.next==null) return head;
+        ListNode dummy = new ListNode(0);
+        dummy.next = head;
+        ListNode pre = dummy;
         
-        ListNode dull = new ListNode(0);
-        ListNode pre = dull;
-        ListNode cur = head;
-        while(cur!=null&&cur.next!=null){
-            ListNode nextone = cur.next.next;
-            pre.next = cur.next;
-            cur.next.next = cur;
-            cur.next = nextone;
-            pre = cur;
-            cur = nextone;
+        while (head != null && head.next != null) {
+            ListNode temp = head.next;
+            head.next = temp.next;
+            temp.next = head;
+            pre.next = temp;
+            pre = temp.next;
+            head = temp.next.next;
         }
         
-        return dull.next;
-        
+        return dummy.next;
     }
 }
