@@ -1,0 +1,36 @@
+class Solution {
+    public int compress(char[] chars) {
+        if (chars.length == 1) return 1;
+        
+        char target = chars[0];
+        int num = 1;
+        int pos = 0;
+        for (int i = 1; i < chars.length; i++) {
+            if (chars[i] == target) {
+                num++;
+                continue;
+            }
+            
+            chars[pos++] = target;
+            if (num > 1) {
+                String temp = String.valueOf(num);
+                for (int j = 0; j < temp.length(); j++) {
+                    chars[pos++] = temp.charAt(j);
+                }
+            }
+            target = chars[i];
+            num = 1;
+        }
+        
+        chars[pos++] = target;
+        if (num > 1) {
+            String temp = String.valueOf(num);
+            for (int j = 0; j < temp.length(); j++) {
+                chars[pos++] = temp.charAt(j);
+            }
+        }
+        
+        return pos;
+        
+    }
+}
