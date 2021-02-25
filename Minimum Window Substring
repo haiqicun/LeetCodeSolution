@@ -1,38 +1,30 @@
-public class Solution {
+class Solution {
     public String minWindow(String s, String t) {
-        if (s == null || t == null || t.length() == 0 || s.length() < t.length()) return "";
-        
-        int[] ta = new int[256];
-        int[] sa = new int[256];
-        int len = Integer.MAX_VALUE;
-        
-        for (int i = 0; i < t.length(); i++) {
-            ta[t.charAt(i)] ++;
+        int[] map = new int[60];
+        int res = Integer.MAX_VALUE;
+        int left = 0;
+        int right = 0;
+        int begin = 0;
+        int counter = t.length();
+        for (char c : t.toCharArray()) {
+            map[c-'A']++;
         }
-        int count = 0;
-        int begin = -1;
-        int start = 0;
-        int end = 0;
         
-        for (int i = 0; i < s.length(); i++) {
-            char ch = s.charAt(i);
-            sa[ch]++;
-            if (sa[ch] <= ta[ch]) count++;
-            if (count == t.length()) {
-                while (start < s.length() && sa[s.charAt(start)] > ta[s.charAt(start)]) {
-                    sa[s.charAt(start)]--;
-                    start++;
+        while (right < s.length()) {
+            if (map[s.charAt(right) - 'A'] > 0) counter--;
+            map[s.charAt(right) - 'A']--;
+            right++;
+            while (counter == 0) {
+                if (right-left < res) {
+                    res = right-left;
+                    begin = left;
                 }
-                if(i - start + 1 < len) {
-                    begin = start;
-                    end = i;
-                    len = i - start + 1;
-                }
-                sa[s.charAt(start)]--;
-                start++;
-                count--;
+                if (map[s.charAt(left) - 'A'] == 0) counter++;
+                map[s.charAt(left) - 'A']++;
+                left++;
             }
         }
-        return begin == -1 ? "" : s.substring(begin, end+1);
+        
+        return res == Integer.MAX_VALUE ? "" : s.substring(begin, begin+res);
     }
 }
