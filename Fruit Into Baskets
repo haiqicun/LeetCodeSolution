@@ -1,0 +1,32 @@
+class Solution {
+    public int totalFruit(int[] tree) {
+        if (tree == null || tree.length == 0) return 0;
+        if (tree.length == 1) return 1;
+        
+        int type1 = tree[0];
+        int type2 = -1;
+        int tempLen = 1;
+        int curLen = 1;
+        int max = 1;
+        
+        for (int i = 1; i < tree.length; i++) {
+            if (tree[i] != type1 && tree[i] != type2 && type2 != -1) {
+                max = Math.max(curLen, max);
+                curLen = tempLen + 1;
+                type2 = type1;
+                type1 = tree[i];
+                tempLen = 1;
+                continue;
+            }
+            if (tree[i] == type1) tempLen++;
+            else {
+                type2 = type1;
+                type1 = tree[i];
+                tempLen = 1;
+            }
+            curLen++;
+        }
+        
+        return Math.max(max, curLen);
+    }
+}
