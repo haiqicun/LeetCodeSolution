@@ -1,0 +1,31 @@
+class Solution {
+    public int kEmptySlots(int[] bulbs, int k) {
+        if (bulbs == null || bulbs.length == 0 || k < 0) return -1;
+
+        int[] days = new int[bulbs.length];
+        int res = Integer.MAX_VALUE;
+        for (int i = 0; i < bulbs.length; i++) {
+            days[bulbs[i]-1] = i+1; 
+        }
+
+        if (k == 0) {
+            for (int j = 0; j+1 < days.length; j++) {
+                res = Math.min(res, Math.max(days[j], days[j+1]));
+            }
+            return res == Integer.MAX_VALUE ? -1 : res;
+        }
+
+        for (int j = 0; j + k +1 < days.length; j++) {
+            int max = Math.max(days[j], days[j+k+1]);
+            for (int m = j+1; m < j+k+1; m++) {
+                if (days[m] < max) break;
+                if (m == j+k) {
+                    res = Math.min(res, max);
+                }
+            }          
+            
+        }
+
+        return res == Integer.MAX_VALUE ? -1 : res;
+    }
+}
