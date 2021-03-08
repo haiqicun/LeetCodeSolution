@@ -29,3 +29,22 @@ class Solution {
         return res == Integer.MAX_VALUE ? -1 : res;
     }
 }
+
+
+
+
+class Solution {
+    public int kEmptySlots(int[] bulbs, int k) {
+        if (bulbs == null || bulbs.length == 0) return -1;
+        if (bulbs.length == 1 && k == 0) return 1;
+        TreeSet<Integer> set = new TreeSet<Integer>();
+        for (int i = 0; i < bulbs.length; i++) {
+            set.add(bulbs[i]);
+            Integer min = set.lower(bulbs[i]);
+            Integer max = set.higher(bulbs[i]);
+            if (min != null && bulbs[i] - min == k+1) return i+1;
+            if (max != null && max - bulbs[i] == k+1) return i+1;
+        }
+        return -1;
+    }
+}
