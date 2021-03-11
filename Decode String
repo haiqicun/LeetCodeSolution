@@ -1,0 +1,53 @@
+class Solution {
+    public String decodeString(String s) {
+        if (s == null || s.length() < 2) return s;
+        
+        StringBuilder pre = new StringBuilder();
+        int numStart = -1;
+        
+        Stack<String> stack = new Stack<String>();
+        for (int i = 0; i < s.length(); i++) {
+            char c = s.charAt(i);
+            if (c >= '0' && c <= '9') {
+                if (numStart == -1) {
+                    numStart = i;
+                    if (pre != null) {
+                        stack.push(pre.toString());
+                        pre = new StringBuilder();
+                    }
+                }
+                continue;
+            }
+            if (c == '[') {
+                stack.push(s.substring(numStart, i+1));
+                numStart = -1;
+                continue;
+            }
+            if (c == ']') {
+                while (!stack.peek().contains("[")) {
+                    StringBuilder temp = new StringBuilder();
+                    temp.append(stack.pop());
+                    temp.append(pre);
+                    pre = temp;     
+                }
+                String ns = stack.pop();
+                int count = Integer.parseInt(ns.substring(0, ns.length()-1));
+                StringBuilder s1 = new StringBuilder();
+                while (count > 0) {
+                    s1.append(pre);
+                    count--;
+                }
+                pre = s1;
+                continue;
+            }
+            pre.append(c);
+        }
+        while (!stack.isEmpty()) {
+            StringBuilder sb = new StringBuilder();
+            sb.append(stack.pop());
+            sb.append(pre);
+            pre = sb;
+        }
+        return pre.toString();
+    }
+}
