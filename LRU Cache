@@ -1,33 +1,35 @@
-public class LRUCache {
-    class Node  
-    {  
-        Node pre, next;  
-        int key;  
-        int val;  
-        public Node(int key, int value)  
-        {  
-            this.key = key;  
-            this.val = value;  
-        }  
-    }  
-      
-    private int capacity;  
-    private int num;  
-    private HashMap<Integer, Node> map;  
-    private Node first, last;
+class LRUCache {
+    
+    int capacity;
+    int count;
+    Node first;
+    Node last;
+    Map<Integer, Node> map;
+    
+    class Node {
+        int key;
+        int val;
+        Node pre;
+        Node next;
+        public Node(int key, int val) {
+            this.key = key;
+            this.val = val;
+            pre = null;
+            next = null;
+        }
+    }
 
     public LRUCache(int capacity) {
-        this.capacity = capacity;  
-        num = 0;  
-        map = new HashMap<Integer, Node>();  
-        first = null;  
+        this.capacity = capacity;
+        count = 0;
+        first = null;
         last = null;
+        map = new HashMap<Integer, Node>();
     }
     
     public int get(int key) {
-        Node node = map.get(key);  
-        if(node == null)  
-            return -1;  
+        Node node = map.get(key);
+        if (node == null) return -1;
         if (capacity == 1 || node == last) return node.val;
         if (node == first) {
             first = first.next;
@@ -36,6 +38,7 @@ public class LRUCache {
             node.next.pre = node.pre;
             node.pre.next = node.next;
         }
+        
         last.next = node;
         node.pre = last;
         last = node;
@@ -44,30 +47,24 @@ public class LRUCache {
     }
     
     public void put(int key, int value) {
-        Node node = map.get(key);  
-        if(node != null)  
-        {  
-            node.val = value;  
+        Node node = map.get(key);
+        if (node != null) { // The key is in the cache.
+            node.val = value;
             if (capacity == 1 || node == last) return;
-            if (node == first) {
+            if (first == node) {
                 first = first.next;
                 first.pre = null;
             } else {
-                node.pre.next = node.next;
                 node.next.pre = node.pre;
+                node.pre.next = node.next;
             }
             last.next = node;
             node.pre = last;
             last = node;
             last.next = null;
-        }  
-        else   
-        {  
-            Node newNode = new Node(key,value);  
-  
-            if(num==capacity)  
-            {  
-                map.remove(first.key);  
+        } else { // The key is not in the cache
+            if (count == capacity) {
+                map.remove(first.key);
                 if (capacity == 1) {
                     first = null;
                     last = null;
@@ -75,23 +72,26 @@ public class LRUCache {
                     first = first.next;
                     first.pre = null;
                 }
-                num--;      
+                count--;
             }
-            num++;
-            map.put(key, newNode);
-            if(capacity == 1 || num == 1)  
-            {  
-                first = newNode;  
-                last = first;
-            }  
-            else  
-            {  
-                last.next = newNode;
-                newNode.pre = last;  
-                last = newNode;
-            }  
-            
+            node = new Node(key, value);
+            map.put(key, node);
+            count++;
+            if (capacity == 1 || count ==1) {
+                first = node;
+                last = node;
+            } else {
+                last.next = node;
+                node.pre = last;
+                last = node;
+            }
         }
-        
     }
 }
+
+/**
+ * Your LRUCache object will be instantiated and called as such:
+ * LRUCache obj = new LRUCache(capacity);
+ * int param_1 = obj.get(key);
+ * obj.put(key,value);
+ */
