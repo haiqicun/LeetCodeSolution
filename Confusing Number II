@@ -1,0 +1,22 @@
+class Solution {
+    int count = 0;
+    public int confusingNumberII(int N) {
+        int[] nums = new int[]{0, 1, 2, 2, 2, 2, 9, 2, 8, 6};
+        dfs(0, 0, 1, nums, N);
+        return count;
+    }
+    public void dfs(long cur, long reverse, long base, int[] nums, int limit) {
+        if (cur > limit) return;
+        if (cur != reverse) count++;
+
+        for (int i = 0; i < nums.length; i++) {
+            if (nums[i] == 2) continue;
+            if (nums[i] == 0 && cur == 0) continue;
+            dfs(cur*10+i, nums[i]*base+reverse, base*10, nums, limit);
+        }
+    }
+}
+
+n is the length of N;
+Time Complexity: O(n)
+Space Complexity: O(5^n)
