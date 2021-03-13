@@ -1,0 +1,23 @@
+class Solution {
+    public int wordsTyping(String[] sentence, int rows, int cols) {
+        StringBuilder sb = new StringBuilder();
+        for (String s : sentence) {
+            sb.append(s).append(" ");
+        }
+        
+        int len = sb.length();
+        int start = 0;
+        for (int i = 0; i < rows; i++) {
+            start = start + cols;
+            if (sb.charAt(start % len) == ' ') {
+                start++;
+                continue;
+            }
+            while ((start%len - 1) >= 0 && sb.charAt(start % len - 1) != ' ') {
+                start--;
+            }
+        }
+
+        return start / len;
+    }
+}
