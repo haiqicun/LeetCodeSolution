@@ -1,0 +1,37 @@
+class Solution {
+    int res = Integer.MAX_VALUE;
+    public int minTransfers(int[][] transactions) {
+        Map<Integer, Integer> banlances = new HashMap<>();
+        for (int[] trans : transactions) {
+            banlances.put(trans[0], banlances.getOrDefault(trans[0], 0)-trans[2]);
+            banlances.put(trans[1], banlances.getOrDefault(trans[1], 0)+trans[2]);
+        }
+        int num = 0;
+        for (Map.Entry<Integer, Integer> me : banlances.entrySet()) {
+            if (me.getValue() != 0) num++;
+        }
+        int[] ba = new int[num];
+        for (Map.Entry<Integer, Integer> me : banlances.entrySet()) {
+            if (me.getValue() != 0) ba[--num] = me.getValue();
+        }
+        dfs(0, 0, ba);
+        return res;
+    }
+
+    private void dfs(int start, int count, int[] ba) {
+        if (count > res) return;
+        while (start < ba.length && ba[start] == 0) start++;
+        
+        if (start == ba.length) {
+            res = Math.min(res, count);
+            return;
+        }
+        for (int j = start+1; j < ba.length; j++) {
+            if (ba[start]*ba[j] < 0) {
+                ba[j] = ba[j] + ba[start];
+                dfs(start+1, count+1, ba);
+                ba[j] = ba[j] - ba[start];
+            }
+        }
+    }
+}
