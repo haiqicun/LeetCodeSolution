@@ -1,0 +1,50 @@
+class AutocompleteSystem {
+    HashMap<String, Integer>[] arr;
+    String cur = "";
+    
+    class Node {
+        String s;
+        int times;
+        public Node(String s, int times) {
+            this.s = s;
+            this.times = times;
+        }
+    }
+
+    public AutocompleteSystem(String[] sentences, int[] times) {
+        arr = new HashMap[26];
+        for (int i = 0; i < 26; i++) {
+            arr[i] = new HashMap<String, Integer>();
+        }
+        for (int i = 0; i < sentences.length; i++) {
+            arr[sentences[i].charAt(0)-'a'].put(sentences[i], times[i]);
+        }
+    }
+    
+    public List<String> input(char c) {
+        List<String> res = new ArrayList<>();
+        if (c == '#') {
+            int index = cur.charAt(0)-'a';
+            arr[index].put(cur, arr[index].getOrDefault(cur, 0) + 1);
+            cur = "";
+        } else {
+            cur = cur + c;
+            List<Node> list = new ArrayList<>();
+            int index = cur.charAt(0)-'a';
+            for (String key : arr[index].keySet()) {
+                if (key.indexOf(cur) == 0) {
+                    list.add(new Node(key, arr[index].get(key)));
+                }
+            }
+            Collections.sort(list, (a, b) -> a.times == b.times ? a.s.compareTo(b.s) : b.times-a.times);
+            for (int j = 0; j < Math.min(3, list.size()); j++) {
+                res.add(list.get(j).s);
+            }
+        }
+        return res;
+    }
+}
+
+Number of sentences: n
+Time Complexity: Initialization 0(n) + Search O(n+nlog(n))
+Space Complexity: Initialization O(26+n) + Search extra O(n)
