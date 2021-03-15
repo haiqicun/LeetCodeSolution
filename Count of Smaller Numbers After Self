@@ -1,0 +1,57 @@
+class Solution {
+    class Node {
+        int val;
+        int index;
+        public Node(int val, int index) {
+            this.val = val;
+            this.index = index;
+        }
+    }
+    public List<Integer> countSmaller(int[] nums) {
+        List<Integer> res = new ArrayList<>();
+        if (nums == null || nums.length == 0) return res;
+        Node[] nodes = new Node[nums.length];
+        int[] result = new int[nums.length];
+        for (int i = 0; i < nums.length; i++) {
+            nodes[i] = new Node(nums[i], i);
+        }
+        
+        mergeSort(nodes, 0, nums.length-1, result);
+        for (int k : result) {
+            res.add(k);
+        }
+        return res;
+    }
+    
+    private void mergeSort(Node[] nodes, int start, int end, int[] result) {
+        if (start >= end) return;
+        int mid = (start+end)/2;
+        int left = start;
+        int right = mid+1;
+        mergeSort(nodes, left, mid, result);
+        mergeSort(nodes, right, end, result);
+        
+        int lessLeftCount = 0;
+        List<Node> merged = new ArrayList<>();
+        while (left <= mid && right <= end) {
+            if (nodes[left].val > nodes[right].val) {
+                lessLeftCount++;
+                merged.add(nodes[right]);
+                right++;
+            } else {
+                result[nodes[left].index] += lessLeftCount;
+                merged.add(nodes[left]);
+                left++;
+            }
+        }
+        while (left <= mid) {
+            result[nodes[mid].index] += lessLeftCount;
+            nodes[end] = nodes[mid];
+            end--;
+            mid--;
+        }
+        for (Node e : merged) {
+            nodes[start++] = e;
+        }
+    }
+}
