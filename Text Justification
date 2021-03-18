@@ -1,47 +1,79 @@
-public class Solution {
+class Solution {
     public List<String> fullJustify(String[] words, int maxWidth) {
-        List<String> lines = new ArrayList<>();
-            int cur = 0;
-            while(cur < words.length) {
-                int last = cur+1;
-                int cnt = words[cur].length();
-                while(last < words.length) {
-                    if(words[last].length() + cnt + 1 > maxWidth) {
-                        break;
-                    }
-                    cnt += words[last].length()+1;
-                    last++;
-                }
-                int gap = last - cur - 1;
-                StringBuilder sb = new StringBuilder();
-                if(last == words.length || gap == 0) {
-                    for(int i=cur;i<last;i++) {
-                        sb.append(words[i]+" ");
-                    }
-                    sb.deleteCharAt(sb.length()-1);
-                    for(int i=sb.length();i<maxWidth;i++) {
-                        sb.append(" ");
-                    }
-                } else {
-                    int spaces = (maxWidth - cnt) / gap;
-                    int rem = (maxWidth - cnt) % gap;
-                    for(int i=cur;i<last;i++) {
-                        sb.append(words[i]);
-                        int j = spaces;
-                        if (rem > 0) {
-                            j++;
-                            rem--;
-                        }
-                        while (j >= 0 && i < last - 1) {
-                            sb.append(" ");
-                            j--;
-                        }
-                    }
-                }
-                lines.add(sb.toString());
-                cur = last;
+        List<String> res = new ArrayList<>();
+        int start = 0;
+        int len = 0;
+        int i = 0;
+        while (i < words.length) {
+            if (len + words[i].length() + 1 < maxWidth) {
+                len = len + words[i].length() + 1;
+                i++;
+                continue;
+            } 
+            if (len + words[i].length() + 1 == maxWidth || 
+                 len + words[i].length() == maxWidth) {
+                res.add(getString(words, start, i, maxWidth));
+                start = i+1;
+                len = 0;
+                i++;
+            } else {
+                res.add(getString(words, start, i-1, maxWidth));
+                start = i;
+                len = 0;
             }
-            return lines;
+        }
+        if (start < words.length) {
+            res.add(getString(words, start, words.length-1, maxWidth));
+        }
+        return res;
+    }
+    
+    private String getString(String[] words, int start, int end, int maxWidth) {
+        StringBuilder s = new StringBuilder();
+        if (start == end) {
+            s.append(words[start]);
+            int n = maxWidth - s.length();
+            while (n > 0) {
+                s.append(" ");
+                n--;
+            }
+            return s.toString();
+        }
+        if (end == words.length-1) {
+            int m = 0;
+            for (int k = start; k < end; k++) {
+                s.append(words[k]).append(" ");
+                m = m + words[k].length() + 1;
+            }
+            s.append(words[end]);
+            m = m + words[end].length();
+            int left = maxWidth - m;
+            while (left > 0) {
+                s.append(" ");
+                left--;
+            }
+            return s.toString();
+        }
+        int size = 0;
+        for (int i = start; i <= end; i++) {
+            size += words[i].length();
+        }
+        int spaceNum = (maxWidth-size)/(end-start);
+        int spaceLeft = (maxWidth-size)%(end-start);
+        for (int i = start; i < end; i++) {
+            s.append(words[i]);
+            int j = spaceNum;
+            while (j > 0) {
+                s.append(" ");
+                j--;
+            }
+            if (spaceLeft > 0) {
+                s.append(" ");
+                spaceLeft--;
+            }
+        }
+        s.append(words[end]);
+        return s.toString();
     }
 }
 //Time complexity: O(number of words); 
