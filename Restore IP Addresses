@@ -1,0 +1,39 @@
+class Solution {
+    public List<String> restoreIpAddresses(String s) {
+        List<String> res = new ArrayList<>();
+        if (s == null || s.length() < 4) return res;
+        
+        buildIP(s, 0, 1, res, "");
+        
+        return res;
+    }
+    
+    public void buildIP(String s, int start, int pos, List<String> res, String pre) {
+        if (pos == 4) {
+            if (start < s.length() - 3 || start >= s.length()) return;
+            if (start < s.length() - 1 && s.charAt(start) == '0') return;
+            int num = Integer.parseInt(s.substring(start, s.length()));
+            if (num > 255) return;
+            pre = pre + s.substring(start, s.length());
+            res.add(pre);
+            return;
+        }
+        if (start >= s.length()) return;
+        if (s.charAt(start) == '0') {
+            buildIP(s, start+1, pos+1, res, pre+"0.");
+            return;
+        }
+        buildIP(s, start+1, pos+1, res, pre+s.substring(start, start+1)+".");
+        if (start <= s.length() - 3) {
+            buildIP(s, start+2, pos+1, res, pre+s.substring(start, start+2)+".");
+        }
+        
+        if (start <= s.length() - 4 && 
+            Integer.parseInt(s.substring(start, start+3)) <= 255) {
+            buildIP(s, start+3, pos+1, res, pre+s.substring(start, start+3)+".");
+        }
+    }
+}
+
+Time Complexity: O(3^4)
+Space Complexity: 0(4)
