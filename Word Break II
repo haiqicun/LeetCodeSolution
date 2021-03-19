@@ -1,0 +1,29 @@
+class Solution {
+    public List<String> wordBreak(String s, List<String> wordDict) {
+        Map<Integer, List<String>> map = new HashMap<>();
+        List<String> list = new ArrayList<>();
+        list.add("");
+        map.put(-1, list);
+        
+        for (int i = 0; i < s.length()-1; i++) {
+            List<String> tempList = new ArrayList<>();
+            for (int j = -1; j < i; j++) {
+                if (map.containsKey(j) && wordDict.contains(s.substring(j+1, i+1))) {
+                    for (String str : map.get(j)) {
+                        tempList.add(str+s.substring(j+1, i+1) + " ");
+                    }
+                }
+            }
+            if (tempList.size() > 0) map.put(i, tempList);
+        }
+        List<String> res = new ArrayList<>();
+        for (int k = -1; k < s.length()-1; k++) {
+            if (map.containsKey(k) && wordDict.contains(s.substring(k+1, s.length()))) {
+                for (String str : map.get(k)) {
+                    res.add(str+s.substring(k+1, s.length()));
+                }
+            }
+        }
+        return res;
+    }
+}
