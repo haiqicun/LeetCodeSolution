@@ -1,0 +1,25 @@
+class Solution {
+    public boolean canArrange(int[] arr, int k) {
+        if (arr == null || arr.length < 2) return false;
+        int mod = 0;
+        
+        int[] counts = new int[k];
+        for (int i = 0; i < arr.length; i++) {
+            mod = arr[i] % k;
+            if (mod == 0) {
+                if (counts[0] > 0) counts[0]--;
+                else counts[0]++;
+                continue;
+            } 
+            if (mod < 0) {
+                mod = k - Math.abs(mod);
+            }
+            if (counts[k-mod] > 0) counts[k-mod]--;
+            else counts[mod]++;
+        }
+        for (int n : counts) {
+            if (n > 0) return false;
+        }
+        return true;
+    }
+}
