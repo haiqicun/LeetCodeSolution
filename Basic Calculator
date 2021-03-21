@@ -1,0 +1,51 @@
+class Solution {
+    public int calculate(String s) {
+        if (s == null || s.length() == 0) return 0;
+        
+        int cur = 0;
+        Stack<Integer> stack = new Stack<>();
+        int sign = 1;
+        int i = 0;
+        
+        while (i < s.length()) {
+            if (s.charAt(i) == ' ') {
+                i++;
+                continue;
+            }
+            if (s.charAt(i) == '+') {
+                sign = 1;
+                i++;
+                continue;
+            }
+            if (s.charAt(i) == '-') {
+                sign = -1;
+                i++;
+                continue;
+            }
+            if (s.charAt(i) >= '0' && s.charAt(i) <= '9') {
+                int num = 0;
+                while (i < s.length()) {
+                    if (s.charAt(i) >= '0' && s.charAt(i) <= '9') {
+                        num = num * 10 + s.charAt(i)-'0';
+                        i++;
+                    } else break;
+                }
+                cur = cur + sign * num;
+                continue;
+            }
+            if (s.charAt(i) == '(') {
+                stack.push(cur);
+                stack.push(sign);
+                sign = 1;
+                cur = 0;
+                i++;
+                continue;
+            }
+            if (s.charAt(i) == ')') {
+                cur = stack.pop() * cur + stack.pop();
+                i++;
+            }
+        }
+        return cur;
+    }
+}
