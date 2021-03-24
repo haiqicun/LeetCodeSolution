@@ -1,0 +1,16 @@
+public int connectedSum(int n, List<String> edges) {
+        UnionFind uf = new UnionFind(n);
+        for (String edge : edges) {
+            String[] temp = edge.split(" ");
+            int node1 = Integer.parseInt(temp[0]);
+            int node2 = Integer.parseInt(temp[1]);
+            uf.union(node1, node2);
+        }
+        int res = 0;
+        for (int i = 0; i < uf.parent.length; i++) {
+            if (uf.parent[i] == i) {
+                res += Math.ceil(Math.sqrt(uf.rank[i]));
+            }
+        }
+        return res - 1;
+    }
