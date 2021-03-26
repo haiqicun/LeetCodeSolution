@@ -1,0 +1,25 @@
+class Solution {
+    int res = 0;
+    Map<Integer, Integer> map;
+    public int pathSum(int[] nums) {
+        if (nums == null || nums.length == 0) return 0;
+        map = new HashMap<>();
+        for (int num : nums) {
+            map.put(num/10, num%10);
+        }
+        helper(nums[0]/10, 0);
+        return res;
+    }
+
+    public void helper(int node, int sum) {
+        sum += map.get(node);
+
+        int depth = node/10;
+        int pos = node % 10;
+        int left = (depth+1) * 10 + 2 * pos - 1;
+        int right = left + 1;
+        if (!map.containsKey(left) && !map.containsKey(right)) res += sum;
+        if (map.containsKey(left)) helper(left, sum);
+        if (map.containsKey(right)) helper(right, sum);
+    }
+}
