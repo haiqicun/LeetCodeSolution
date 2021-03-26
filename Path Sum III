@@ -1,0 +1,41 @@
+/**
+ * Definition for a binary tree node.
+ * public class TreeNode {
+ *     int val;
+ *     TreeNode left;
+ *     TreeNode right;
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
+ * }
+ */
+class Solution {
+    int res = 0;
+    public int pathSum(TreeNode root, int sum) {
+        if (root == null) return 0;
+        helper(root, sum, new ArrayList<Integer>());
+        return res;
+    }
+    
+    public void helper(TreeNode root, int sum, List<Integer> list) {
+        for (int i = 0; i < list.size(); i++) {
+            if (list.get(i) + root.val == sum) res++;
+            list.set(i, list.get(i)+root.val);
+        }
+        if (root.val == sum) res++;
+        list.add(root.val);
+        if (root.left != null && root.right != null) {
+            List<Integer> temp = new ArrayList<>(list);
+            helper(root.left, sum, list);
+            helper(root.right, sum, temp);
+        } else if (root.left != null) {
+            helper(root.left, sum, list);
+        } else if (root.right != null) {
+            helper(root.right, sum, list);
+        }
+    }
+}
