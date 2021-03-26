@@ -30,18 +30,6 @@ public class Solution {
         return res;
     }
 }
-
-
-
-/**
- * Definition for a binary tree node.
- * public class TreeNode {
- *     int val;
- *     TreeNode left;
- *     TreeNode right;
- *     TreeNode(int x) { val = x; }
- * }
- */
  
  Time complexity : O(n) ; Space complexity : O(logn);
 class Solution {
