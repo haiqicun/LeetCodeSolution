@@ -57,3 +57,33 @@ public class Solution {
         helper(root.right, sum - root.val);
     }
 }
+
+
+class Solution {
+    Map<Integer, Integer> map = new HashMap<>();
+    int ans = 0;
+    public int pathSum(TreeNode root, int sum) {
+        if (root == null) return 0;
+        map.put(0, 1);
+        dfs(root, 0, sum);
+        return ans;
+    }
+    
+    public void dfs(TreeNode root, int cur, int sum) {
+        if (root == null) return;
+        
+        int temp = cur + root.val;
+        if (map.containsKey(temp - sum)) ans += map.get(temp - sum);
+        if (map.containsKey(temp)) map.put(temp, map.get(temp)+1);
+        else map.put(temp, 1);
+        dfs(root.left, temp, sum);
+        dfs(root.right, temp, sum);
+        
+        if (map.containsKey(temp)) {
+            int num = map.get(temp);
+            num--;
+            if (num == 0) map.remove(temp);
+            else map.put(temp, num);
+        }
+    }
+}
