@@ -1,0 +1,19 @@
+class Solution {
+    public int[][] kClosest(int[][] points, int k) {
+        Arrays.sort(points, (a, b) -> {
+            int ra = a[0]*a[0] + a[1]*a[1];
+            int rb = b[0]*b[0] + b[1]*b[1];
+            return ra-rb;
+        });
+        
+        int[][] res = new int[k][2];
+        for (int i = 0; i < k; i++) {
+            res[i][0] = points[i][0];
+            res[i][1] = points[i][1];
+        }
+        return res;
+    }
+}
+
+Time Complexity: O(n*logn);
+Space Complexity: O(1);
