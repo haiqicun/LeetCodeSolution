@@ -26,3 +26,34 @@ class Solution {
         
     }
 }
+
+
+
+
+class Solution {
+    public String longestPalindrome(String s) {
+        if (s == null || s.length() < 2) return s;
+        
+        int max = 1;
+        int maxIndex = 0;
+        int n = s.length();
+        
+        for (int i = 0; i < n; i++) {
+            int l = i;
+            int r = i;
+            while (r < n-1 && s.charAt(r) == s.charAt(r+1)) r++;
+            while (l >= 0 && r < n && s.charAt(l) == s.charAt(r)) {
+                l--;
+                r++;
+            }
+            l++;
+            r--;
+            if (r - l + 1 > max) {
+                max = r - l + 1;
+                maxIndex = l;
+            }
+        }
+        
+        return s.substring(maxIndex, maxIndex + max);
+    }
+}
