@@ -16,7 +16,7 @@ public class Solution {
                 for (int j = 0; j < arr.length; j++) {
                     char ori = arr[j];
                     for (char c = 'a'; c <= 'z'; c++) {
-                        if (c == arr[j]) continue;
+                        if (c == ori) continue;
                         arr[j] = c;
                         String candi = String.valueOf(arr);
                         if (candi.equals(endWord)) return level+1;
