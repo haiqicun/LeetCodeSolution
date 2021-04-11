@@ -4,8 +4,8 @@ class Solution {
         if (s == null || s.length() < 2) return s;
         
         int size = s.length();
-        String res = s.substring(0,1);
         int max = 1;
+        int startIndex = 0;
         boolean[][] dp = new boolean[size][size];
         
         for (int j = 0; j < size; j++) {
@@ -15,14 +15,14 @@ class Solution {
                     
                     if (j-i+1 > max) {
                         max = j - i + 1;
-                        res = s.substring(i, j+1);
+                        startIndex = i;
                     }
                 }
             }
             
         }
         
-        return res;
+        return s.substring(startIndex, startIndex+max);
         
     }
 }
