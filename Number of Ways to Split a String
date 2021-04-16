@@ -1,0 +1,36 @@
+class Solution {
+    public int numWays(String s) {
+        if (s == null || s.length() < 3) return 0;
+        
+        int num = 0;
+        for (char c : s.toCharArray()) {
+            if (c == '1') num++;
+        }
+        
+        if (num % 3 != 0) return 0;
+        int length = s.length();
+        int module = 1000000007;
+        if (num == 0) return (int)((((length-1L) * (length-2L))/2L) % module);
+        
+        int ones = num/3;
+        int temp = 0;
+        int p1 = 0;
+        long p12 = 0;
+        int p2 = 0;
+        long p22 = 0;
+        for (int i = 0; i < s.length(); i++) {
+            if (s.charAt(i) == '0') continue;
+            temp++;
+            if (temp == ones) p1 = i;
+            if (temp == ones + 1) p12 = i-p1;
+            if (temp == 2 * ones) p2 = i;
+            if (temp == 2 * ones + 1) {
+                p22 = i-p2;
+                break;
+            }
+        }
+        
+        
+        return (int)(((p12%module) * (p22%module)) % module);
+    }
+}
