@@ -1,0 +1,30 @@
+class Solution {
+    public boolean canPartitionKSubsets(int[] nums, int k) {
+        int sum = 0, maxNum = 0;
+        for (int num : nums) {
+            sum += num;
+            maxNum = Math.max(maxNum, num);
+        }
+        if (sum % k != 0 || maxNum > sum / k) {
+            return false;
+        }
+        boolean[] visited = new boolean[nums.length];
+        return helper(nums, k, visited, sum / k, 0, 0);
+    }
+    
+    private boolean helper(int[] nums, int k, boolean[] visited, int target, int cur, int start){
+        if (k == 0) return true;
+        if (cur > target) return false;
+        if (cur == target) return helper(nums, k-1, visited, target, 0, 0);
+        
+        for (int i = start; i < nums.length; i++) {
+            if (!visited[i]) {
+                visited[i] = true;
+                if (helper(nums, k, visited, target, cur + nums[i], i+1)) return true;
+                visited[i] = false;
+            }
+        }
+        
+        return false;
+    }
+}
