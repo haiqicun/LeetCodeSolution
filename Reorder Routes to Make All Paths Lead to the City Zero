@@ -2,8 +2,9 @@ class Solution {
     public int minReorder(int n, int[][] connections) {
         if (connections == null || connections.length == 0) return 0;
         int res = 0;
-        Set<Integer> set = new HashSet<>();   
-        set.add(0);
+        boolean[] visited = new boolean[n];
+        
+        visited[0] = true;
         
         Queue<int[]> queue = new LinkedList<>();
         for (int[] c : connections) {
@@ -12,9 +13,9 @@ class Solution {
         
         while (!queue.isEmpty()) {
             int[] c = queue.poll();
-            if (set.contains(c[1])) set.add(c[0]);
-            else if (set.contains(c[0])) {
-                set.add(c[1]);
+            if (visited[c[1]]) visited[c[0]] = true;
+            else if (visited[c[0]]) {
+                visited[c[1]] = true;
                 res++;
             } else {
                 queue.offer(c);
