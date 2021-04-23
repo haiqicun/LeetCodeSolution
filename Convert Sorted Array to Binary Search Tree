@@ -6,24 +6,27 @@ Time complexity: O(n); Space complexity: O(logn)+O(n) = O(n);
  *     int val;
  *     TreeNode left;
  *     TreeNode right;
- *     TreeNode(int x) { val = x; }
+ *     TreeNode() {}
+ *     TreeNode(int val) { this.val = val; }
+ *     TreeNode(int val, TreeNode left, TreeNode right) {
+ *         this.val = val;
+ *         this.left = left;
+ *         this.right = right;
+ *     }
  * }
  */
-public class Solution {
+class Solution {
     public TreeNode sortedArrayToBST(int[] nums) {
-        
-        if(nums==null||nums.length==0) return null;
-        
-        return helper(nums,0,nums.length-1);
-        
+        TreeNode root = buildTree(nums, 0, nums.length-1);
+        return root;
     }
     
-    public TreeNode helper(int[] nums, int l, int r){
-        if(l>r) return null;
-        int mid = (l+r)/2;
+    public TreeNode buildTree(int[] nums, int start, int end) {
+        if (start > end) return null;
+        int mid = (start + end) / 2;
         TreeNode root = new TreeNode(nums[mid]);
-        root.left = helper(nums,l,mid-1);
-        root.right = helper(nums,mid+1,r);
+        root.left = buildTree(nums, start, mid-1);
+        root.right = buildTree(nums, mid+1, end);
         
         return root;
     }
