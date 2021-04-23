@@ -1,0 +1,31 @@
+class Solution {
+    public int maximumSwap(int num) {
+        String s = String.valueOf(num);
+        
+        if (s.length() < 2) return num;
+        int len = s.length();
+        char[] chars = s.toCharArray();
+        int[] largestIndex = new int[len];
+        
+        int max = len - 1;
+        for (int i = len-1; i >= 0; i--) {
+            if (chars[i] > chars[max]) {
+                max = i;
+            }
+            largestIndex[i] = max;
+        }
+        
+        for (int i = 0; i < len; i++) {
+            if (chars[i] == chars[largestIndex[i]]) continue;
+            
+            int index = largestIndex[i];
+            char c = chars[index];
+            chars[index] = chars[i];
+            chars[i] = c;
+            s = String.valueOf(chars);
+            break;
+        }
+        
+        return Integer.valueOf(s);
+    }
+}
