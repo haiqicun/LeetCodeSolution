@@ -1,5 +1,5 @@
 class Solution {
-    int res = 0;
+
     public int uniquePathsWithObstacles(int[][] matrix) {
         if (matrix == null || matrix.length == 0) return 0;
         int m = matrix.length;
