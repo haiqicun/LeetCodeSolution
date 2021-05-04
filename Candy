@@ -1,0 +1,24 @@
+class Solution {
+    public int candy(int[] ratings) {
+        if (ratings == null || ratings.length == 0) return 0;
+        int len = ratings.length;
+        int[] left = new int[len];
+        int[] right = new int[len];
+        
+        left[0] = 1;
+        right[len-1] = 1;
+        for (int i = 1; i < len; i++) {
+            left[i] = ratings[i] <= ratings[i-1] ? 1 : left[i-1] + 1; 
+        }
+        
+        int res = left[len-1];
+        
+        for (int j = len - 2; j >= 0; j--) {
+            right[j] = ratings[j] <= ratings[j+1] ? 1 : right[j+1] + 1;
+            
+            res += Math.max(left[j], right[j]);
+        }
+        
+        return res;
+    }
+}
