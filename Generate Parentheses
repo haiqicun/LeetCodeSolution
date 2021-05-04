@@ -1,4 +1,4 @@
-Time complexity: O(amount of results); Space complexity:(amount of results)
+Time complexity: O(4^n/sqr(n)); Space complexity:(4^n/sqr(n))
 
 class Solution {
     public List<String> generateParenthesis(int n) {
