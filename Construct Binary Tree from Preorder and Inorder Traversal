@@ -61,7 +61,7 @@ class Solution {
             index++;
         }
         int len = index-start2;
-        root.left = helper(preorder, start1+1, start1+len-1, inorder, start2, index-1);
+        root.left = helper(preorder, start1+1, start1+len, inorder, start2, index-1);
         root.right = helper(preorder, start1+len+1, end1, inorder, index+1, end2);
         return root;
     }
